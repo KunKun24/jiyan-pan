@@ -1,0 +1,19 @@
+; ================================================================
+; 极验云网盘 · PHP 站点配置模板
+; 由 TG 困困开源 @sad1881 困困承接各种业务 欢迎咨询
+; 本源码由 DeepSeek V4.1 V4pro 开发 转载请尊重原创
+; ================================================================
+; 用法：把本文件重命名为 .user.ini 放到站点根目录，
+;       把 open_basedir 改成你的实际站点路径，然后重启 PHP-FPM。
+; 注意：宝塔环境下 .user.ini 会自动被 PHP-FPM 读取。
+
+; 限制 PHP 可访问的目录（站点目录 + 临时目录），路径改成你的实际路径
+open_basedir=/www/wwwroot/your-pan/:/tmp/
+
+; 与 nginx client_max_body_size 保持一致（管理员单文件上限）
+upload_max_filesize=2048M
+post_max_size=2048M
+
+; 大文件上传不超时
+max_execution_time=0
+max_input_time=-1

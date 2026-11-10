@@ -1,0 +1,62 @@
+# ================================================================
+# 极验云网盘 · Nginx 配置示例
+# 由 TG 困困开源 @sad1881 困困承接各种业务 欢迎咨询
+# 本源码由 DeepSeek V4.1 V4pro 开发 转载请尊重原创
+# ================================================================
+# 用法（宝塔面板）：
+#   1. 新建站点，绑定你的域名，PHP 版本选 8.x；
+#   2. 把下面的「网盘专属配置」整段贴到站点配置文件的 server 块内
+#      （宝塔：网站 → 设置 → 配置文件，或新建一个 *.conf 放进
+#        /www/server/panel/vhost/nginx/extension/你的站点名/ 目录）；
+#   3. 把 root 和 alias 里的路径改成你的实际站点路径；
+#   4. 重载 Nginx。
+# ================================================================
+
+server {
+    listen 80;
+    server_name your-domain.com;               # 改成你的域名
+
+    index index.php index.html index.htm;
+    root /www/wwwroot/your-pan;                # 改成你的站点根目录
+
+    # PHP 处理（宝塔会自动 include enable-php-8x.conf，此处仅示意）
+    location ~ \.php$ {
+        fastcgi_pass unix:/tmp/php-cgi.sock;   # 按你的 PHP 版本调整
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # ============ 网盘专属配置 ============
+
+    # 单文件上传上限（管理员上限，普通用户按积分配额限制）
+    client_max_body_size 2048m;
+
+    # 大文件上传/下载超时
+    fastcgi_send_timeout 3600s;
+    fastcgi_read_timeout 3600s;
+
+    # 禁止直接访问存储目录（文件只能通过 dl.php 分发）
+    location ^~ /storage {
+        deny all;
+    }
+
+    # 禁止直接访问 IP 库与程序库文件
+    location ^~ /data {
+        deny all;
+    }
+    location ^~ /lib {
+        deny all;
+    }
+
+    # 内部文件分发（由 dl.php 的 X-Accel-Redirect 使用）
+    location /__f/ {
+        internal;
+        alias /www/wwwroot/your-pan/storage/;  # 改成你的实际路径
+    }
+
+    # 分享直链：/d/<32位token> -> dl.php
+    rewrite "^/d/([a-f0-9]{32})$" /dl.php?t=$1 last;
+
+    # 让 PHP 返回的 4xx JSON 原样输出，而非被 nginx 换成 HTML 错误页
+    fastcgi_intercept_errors off;
+}
