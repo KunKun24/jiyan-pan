@@ -4,6 +4,8 @@
 
 A lightweight, private, PHP-based multi-user cloud drive with public direct-link sharing.
 
+> **Live demo (static)**: <https://kunkun24.github.io/jiyan-pan/> — UI only, no backend.
+
 - Open-sourced by TG Kuankun [@sad1881](https://t.me/sad1881) — Kuankun also takes on all kinds of projects, feel free to reach out.
 - Built with DeepSeek V4.1 / V4 Pro. **When reposting or redistributing, please respect the original work and keep this copyright notice.**
 
