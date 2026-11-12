@@ -10,6 +10,7 @@ RUN apk add --no-cache nginx supervisor tzdata \
  && rm -rf /var/cache/apk/*
 
 COPY docker/php.ini /usr/local/etc/php/conf.d/zz-pandisk.ini
+COPY docker/php-fpm-pool.conf /usr/local/etc/php-fpm.d/zz-env.conf
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /entrypoint.sh
