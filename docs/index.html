@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>极验云网盘 · 静态演示</title>
+<meta name="description" content="极验云网盘 —— 轻量私有、可外链直链分享的 PHP 多用户网盘。这是界面静态演示。">
+<meta property="og:title" content="极验云网盘 · 静态演示">
+<meta property="og:description" content="轻量私有、可外链直链分享的 PHP 多用户网盘。">
+<link rel="icon" href="assets/logo.png">
+<style>
+  :root{
+    --bg:#ffffff; --bg-soft:#fbfbfd; --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+    --line:#e5e5ea; --line-soft:#f0f0f2; --blue:#0071e3; --blue-soft:#eaf3ff;
+    --radius:18px; --radius-sm:10px;
+    --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro SC","SF Pro Text","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .demo-badge{
+    position:fixed;right:16px;bottom:16px;z-index:50;
+    background:rgba(29,29,31,.86);color:#fff;font-size:12px;letter-spacing:.04em;
+    padding:8px 12px;border-radius:999px;backdrop-filter:blur(10px);
+  }
+  .demo-badge b{color:#8ec5ff;font-weight:600}
+
+  /* nav */
+  header.nav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(18px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{height:56px;display:flex;align-items:center;gap:10px}
+  .logo{width:26px;height:26px;object-fit:contain}
+  .brand{font-size:17px;font-weight:600;letter-spacing:-.01em}
+  .nav-spacer{flex:1}
+  .nav-links{display:flex;gap:22px;font-size:13.5px;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    height:36px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:500;
+    border:1px solid transparent;cursor:pointer;transition:.18s ease;white-space:nowrap;
+  }
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:#0077ed;transform:translateY(-1px)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:#c9c9cf;background:var(--bg-soft)}
+  .btn-sm{height:30px;padding:0 14px;font-size:13px}
+
+  /* hero */
+  .hero{padding:88px 0 64px;text-align:center}
+  .eyebrow{font-size:13px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase}
+  .hero h1{
+    margin:18px 0 16px;font-size:clamp(38px,6vw,64px);line-height:1.08;
+    letter-spacing:-.03em;font-weight:700;
+  }
+  .hero h1 em{font-style:normal;color:var(--blue)}
+  .hero p{max-width:560px;margin:0 auto;color:var(--ink-2);font-size:18px}
+  .hero-actions{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+
+  /* feature cards */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:16px 0 72px}
+  .card{
+    background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:var(--radius);
+    padding:22px;transition:.2s ease;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);background:#fff}
+  .card .ico{
+    width:34px;height:34px;border-radius:9px;background:var(--blue-soft);color:var(--blue);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+  }
+  .card h3{margin:0 0 6px;font-size:15px;font-weight:600}
+  .card p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+
+  /* demo section */
+  .section-head{text-align:center;margin:0 0 28px}
+  .section-head h2{margin:0 0 8px;font-size:28px;letter-spacing:-.02em}
+  .section-head p{margin:0;color:var(--ink-2);font-size:15px}
+  .app{
+    border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff;
+    box-shadow:0 1px 2px rgba(0,0,0,.04),0 28px 64px rgba(0,0,0,.08);
+  }
+  .app-bar{
+    display:flex;align-items:center;gap:8px;padding:12px 16px;
+    border-bottom:1px solid var(--line-soft);background:var(--bg-soft);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;background:#e3e3e6}
+  .app-bar .title{margin-left:8px;font-size:13px;color:var(--ink-3)}
+  .app-body{padding:20px}
+  .toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .toolbar h4{margin:0;font-size:15px;font-weight:600}
+  .toolbar .count{font-size:13px;color:var(--ink-3)}
+  .toolbar .spacer{flex:1}
+
+  table.files{width:100%;border-collapse:collapse;font-size:14px}
+  table.files th{
+    text-align:left;font-weight:500;font-size:12px;color:var(--ink-3);
+    letter-spacing:.04em;padding:8px 10px;border-bottom:1px solid var(--line-soft);
+  }
+  table.files td{padding:12px 10px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+  table.files tr:last-child td{border-bottom:0}
+  .file-name{display:flex;align-items:center;gap:10px;font-weight:500}
+  .file-ico{
+    width:30px;height:30px;border-radius:8px;background:var(--bg-soft);
+    display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex:none;
+  }
+  .muted{color:var(--ink-3);font-size:13px}
+  .tag{
+    display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;
+    background:var(--blue-soft);color:var(--blue);
+  }
+  .row-actions{display:flex;gap:6px;justify-content:flex-end;opacity:.35;transition:.15s}
+  tr:hover .row-actions{opacity:1}
+
+  .upload{
+    margin-top:18px;border:1.5px dashed var(--line);border-radius:14px;
+    padding:26px;text-align:center;color:var(--ink-3);font-size:14px;background:var(--bg-soft);
+  }
+  .upload strong{color:var(--ink);font-weight:600}
+  .bar{height:6px;border-radius:999px;background:#ececf0;overflow:hidden;margin:14px auto 0;max-width:320px}
+  .bar span{display:block;height:100%;width:0;background:var(--blue);border-radius:999px;transition:width .4s ease}
+
+  /* modal mock */
+  .modal{
+    margin-top:18px;border:1px solid var(--line);border-radius:16px;background:#fff;
+    box-shadow:var(--shadow);padding:22px;max-width:520px;
+  }
+  .modal h5{margin:0 0 4px;font-size:15px}
+  .modal .sub{margin:0 0 16px;font-size:13px;color:var(--ink-3)}
+  .link-box{
+    display:flex;gap:8px;align-items:center;background:var(--bg-soft);
+    border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;font-size:13px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink-2);
+    overflow:hidden;white-space:nowrap;
+  }
+  .link-box span{overflow:hidden;text-overflow:ellipsis}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .field label{display:block;font-size:12px;color:var(--ink-3);margin-bottom:6px}
+  .field div{
+    border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:13.5px;background:#fff;
+  }
+
+  .note{
+    margin:56px 0 0;padding:16px 18px;border-radius:14px;background:var(--bg-soft);
+    border:1px solid var(--line-soft);color:var(--ink-2);font-size:13.5px;
+  }
+  .note b{color:var(--ink)}
+
+  footer{
+    margin-top:72px;border-top:1px solid var(--line-soft);padding:36px 0 56px;
+    color:var(--ink-3);font-size:13px;
+  }
+  footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a:hover{color:var(--ink)}
+
+  @media (max-width:880px){
+    .features{grid-template-columns:repeat(2,1fr)}
+    .nav-links{display:none}
+    .hero{padding:64px 0 44px}
+  }
+  @media (max-width:560px){
+    .features{grid-template-columns:1fr}
+    .app-body{padding:14px}
+    table.files th:nth-child(3), table.files td:nth-child(3){display:none}
+    .grid2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="demo-badge">静态演示 · <b>无后端</b></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <img class="logo" src="assets/logo.png" alt="极验云网盘">
+    <div class="brand">极验云网盘</div>
+    <div class="nav-spacer"></div>
+    <nav class="nav-links">
+      <a href="#features">特性</a>
+      <a href="#demo">界面</a>
+      <a href="https://github.com/KunKun24/jiyan-pan">GitHub</a>
+    </nav>
+    <a class="btn btn-ghost btn-sm" href="?login">登录</a>
+    <a class="btn btn-primary btn-sm" href="https://github.com/KunKun24/jiyan-pan">部署自己的</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="eyebrow">Self-hosted · PHP 8 · MySQL</div>
+    <h1>你的文件，<em>随存随取。</em></h1>
+    <p>轻量、私有的多用户网盘。上传任意格式，生成带次数与有效期的直链，分享给谁、给几次，都由你说了算。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/KunKun24/jiyan-pan">查看源码</a>
+      <a class="btn btn-ghost" href="https://github.com/KunKun24/jiyan-pan/blob/main/INSTALL.md">部署文档</a>
+    </div>
+  </section>
+
+  <section id="features" class="wrap">
+    <div class="features">
+      <div class="card">
+        <div class="ico">↧</div>
+        <h3>任意格式</h3>
+        <p>单文件最大 2 GB，图片、视频、压缩包、安装包都能传，不挑类型。</p>
+      </div>
+      <div class="card">
+        <div class="ico">∞</div>
+        <h3>直链分享</h3>
+        <p>每个文件一条 <code>/d/…</code> 短链，可设下载次数与过期时间。</p>
+      </div>
+      <div class="card">
+        <div class="ico">◎</div>
+        <h3>下载可查</h3>
+        <p>谁在什么时候下的、来自哪个城市，记录在案，链接随时可撤销。</p>
+      </div>
+      <div class="card">
+        <div class="ico">⌂</div>
+        <h3>多用户与配额</h3>
+        <p>注册、签到、积分兑换容量，管理员可封禁、重置密码、清理过期文件。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="wrap">
+    <div class="section-head">
+      <h2>界面预览</h2>
+      <p>下面是真实界面结构的静态还原，数据为示例。</p>
+    </div>
+
+    <div class="app">
+      <div class="app-bar">
+        <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+        <span class="title">cloud.example.com — 我的文件</span>
+      </div>
+      <div class="app-body">
+        <div class="toolbar">
+          <h4>我的文件</h4>
+          <span class="count">3 个文件 · 已用 1.2 GB / 2 GB</span>
+          <div class="spacer"></div>
+          <button class="btn btn-ghost btn-sm" type="button">新建文件夹</button>
+          <button class="btn btn-primary btn-sm" type="button">上传文件</button>
+        </div>
+
+        <table class="files">
+          <thead>
+            <tr>
+              <th>名称</th><th>大小</th><th>上传时间</th><th>状态</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="file-name"><span class="file-ico">▤</span>JiYan快速对接包1.7.zip</div></td>
+              <td class="muted">237 KB</td>
+              <td class="muted">11-09 23:58</td>
+              <td><span class="tag">公开</span></td>
+              <td><div class="row-actions">
+                <button class="btn btn-ghost btn-sm" type="button">分享</button>
+                <button class="btn btn-ghost btn-sm" type="button">下载</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td><div class="file-name"><span class="file-ico">▤</span>JiYan云更新V1.3.zip</div></td>
+              <td class="muted">43 KB</td>
+              <td class="muted">11-10 09:12</td>
+              <td><span class="tag">3 次下载</span></td>
+              <td><div class="row-actions">
+                <button class="btn btn-ghost btn-sm" type="button">分享</button>
+                <button class="btn btn-ghost btn-sm" type="button">下载</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td><div class="file-name"><span class="file-ico">▤</span>产品演示.mp4</div></td>
+              <td class="muted">412 MB</td>
+              <td class="muted">11-10 14:30</td>
+              <td><span class="tag">已过期</span></td>
+              <td><div class="row-actions">
+                <button class="btn btn-ghost btn-sm" type="button">分享</button>
+                <button class="btn btn-ghost btn-sm" type="button">下载</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="upload">
+          <div><strong>拖拽文件到这里</strong>，或点击选择</div>
+          <div class="bar"><span id="bar"></span></div>
+        </div>
+
+        <div class="modal">
+          <h5>分享「JiYan云更新V1.3.zip」</h5>
+          <p class="sub">链接生成后，对方无需登录即可下载。</p>
+          <div class="link-box">
+            <span>https://cloud.example.com/d/7f3a9c1e5b2d4f6a8c0e1b3d5f7a9c2e</span>
+            <button class="btn btn-ghost btn-sm" type="button" style="margin-left:auto">复制</button>
+          </div>
+          <div class="grid2">
+            <div class="field"><label>下载次数上限</label><div>3 次（已用 1 次）</div></div>
+            <div class="field"><label>有效期</label><div>7 天</div></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <button class="btn btn-primary btn-sm" type="button">保存设置</button>
+            <button class="btn btn-ghost btn-sm" type="button">撤销链接</button>
+          </div>
+        </div>
+
+        <p class="note">
+          <b>说明：</b>这是纯静态页面，按钮不连接任何后端，只用于展示界面与交互结构。
+          真实功能需要 PHP 8 + MySQL，按仓库里的
+          <a href="https://github.com/KunKun24/jiyan-pan/blob/main/INSTALL.md" style="color:var(--blue)">INSTALL.md</a>
+          部署。图标由 <a href="https://github.com/KunKun24" style="color:var(--blue)">KunKun</a> 设计。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <div class="row">
+      <div>© 2026 极验云盘 · 困困(tg@sad1881) · MIT License</div>
+      <div>
+        <a href="https://github.com/KunKun24/jiyan-pan">GitHub</a> ·
+        <a href="https://github.com/KunKun24/jiyan-pan/blob/main/README.en.md">English</a> ·
+        <a href="https://github.com/KunKun24/jiyan-pan/blob/main/INSTALL.md">部署</a>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // 演示：上传进度条循环，仅视觉
+  (function () {
+    var bar = document.getElementById('bar');
+    var v = 0, dir = 1;
+    setInterval(function () {
+      v += dir * 7;
+      if (v >= 100) { v = 100; dir = -1; setTimeout(function(){ dir = 1; v = 0; }, 900); }
+      bar.style.width = v + '%';
+    }, 220);
+  })();
+</script>
+</body>
+</html>
