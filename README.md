@@ -69,6 +69,26 @@
 6. 注册一个账号，然后把它设为管理员（见 INSTALL.md）
 7. 设置 `cleanup.php` 的 cron 定时清理
 
+## Docker 部署
+
+镜像内打包了 nginx + php-fpm，数据库用 MariaDB，一条命令拉起：
+
+```bash
+cp .env.docker.example .env    # 先改掉里面的密码
+docker compose up -d --build
+```
+
+浏览器打开 `http://服务器IP:8080`，按页面完成初始化。
+
+- MariaDB 首次启动会自动导入 `database.sql`
+- 文件与数据库分别存在 `storage`、`db` 两个数据卷，`docker compose down` 不会丢
+- 端口、数据库账号密码都在 `.env` 里改
+- 走反向代理/HTTPS 后，把 `SITE_URL` 填成公网地址
+- 多架构镜像（`linux/amd64`、`linux/arm64`）在打 tag 时由 GitHub Actions 构建到 `ghcr.io/kunkun24/jiyan-pan`
+
+不用 Docker 的安装方式见 [INSTALL.md](INSTALL.md)。
+
+
 ## 安全说明
 
 - `storage/`、`data/`、`lib/` 目录在 Nginx 中 `deny all`，文件只能通过 `dl.php` 分发

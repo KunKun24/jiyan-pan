@@ -1,0 +1,8 @@
+.git
+.env
+.github
+docs
+storage/*
+!storage/.gitkeep
+*.log
+.tmp

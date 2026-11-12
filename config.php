@@ -8,23 +8,24 @@ if (!defined('PANDISK')) { http_response_code(404); exit; }
 
 return [
     // MySQL 数据库（部署时改成你自己的数据库信息）
+    // 支持环境变量覆盖（Docker / 12-factor 部署用）；未设置时用下面的默认值
     'db' => [
-        'host'    => 'localhost',
-        'port'    => 3306,
-        'name'    => 'your_database_name',
-        'user'    => 'your_db_user',
-        'pass'    => 'your_db_password',
+        'host'    => getenv('DB_HOST') ?: 'localhost',
+        'port'    => (int)(getenv('DB_PORT') ?: 3306),
+        'name'    => getenv('DB_NAME') ?: 'your_database_name',
+        'user'    => getenv('DB_USER') ?: 'your_db_user',
+        'pass'    => getenv('DB_PASS') ?: 'your_db_password',
         'charset' => 'utf8mb4',
     ],
 
     // 文件存储目录（必须在本站点目录内，且 nginx 已禁止直接访问）
-    'storage' => __DIR__ . '/storage',
+    'storage' => getenv('STORAGE_DIR') ?: __DIR__ . '/storage',
 
     // 站点标题
     'title' => '极验云盘',
 
     // 站点地址，留空则自动识别（如 https://cloud.example.com）
-    'site_url' => '',
+    'site_url' => getenv('SITE_URL') ?: '',
 
     // 单文件上传上限（MB），同时需 nginx / PHP 配置配合（管理员上限，普通用户按 quota 限制）
     'max_upload_mb' => 2048,

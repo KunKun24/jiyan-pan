@@ -4,6 +4,25 @@
 
 ---
 
+## 方式 A：Docker（最简单）
+
+需要 Docker Engine 24+ 与 Compose v2。
+
+```bash
+cp .env.docker.example .env    # 改掉里面的数据库密码
+docker compose up -d --build
+```
+
+打开 `http://服务器IP:8080` 完成页面初始化即可。首次启动 MariaDB 会自动导入 `database.sql`，文件在 `storage` 卷、数据库在 `db` 卷。
+
+想改用别的端口就改 `.env` 里的 `APP_PORT`；放在反向代理后面时把 `SITE_URL` 填成公网地址。
+
+镜像也支持 `linux/amd64` 与 `linux/arm64`：打成 tag 后 GitHub Actions 会构建到 `ghcr.io/kunkun24/jiyan-pan`。
+
+---
+
+## 方式 B：宝塔 / 裸机
+
 ## 环境要求
 
 | 组件 | 要求 |

@@ -69,6 +69,26 @@ See [INSTALL.md](./INSTALL.md) for the full deployment steps. In short:
 6. Register an account, then promote it to administrator (see INSTALL.md)
 7. Set up a cron job for `cleanup.php`
 
+## Docker
+
+The image bundles nginx and php-fpm, with MariaDB as the database:
+
+```bash
+cp .env.docker.example .env    # change the passwords first
+docker compose up -d --build
+```
+
+Open `http://<server-ip>:8080` and finish the setup in the browser.
+
+- MariaDB imports `database.sql` on first start
+- Files and database live in the `storage` and `db` volumes, so `docker compose down` keeps them
+- Ports and database credentials are configured in `.env`
+- Behind a reverse proxy or HTTPS, set `SITE_URL` to the public address
+- Multi-arch images (`linux/amd64`, `linux/arm64`) are built by GitHub Actions on tags and published to `ghcr.io/kunkun24/jiyan-pan`
+
+For the non-Docker install, see [INSTALL.md](INSTALL.md).
+
+
 ## Security Notes
 
 - The `storage/`, `data/` and `lib/` directories are `deny all` in Nginx; files are served only through `dl.php`
